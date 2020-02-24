@@ -1,5 +1,16 @@
 package com.hoysolov.reactformsapi.service.user;
 
-public interface UserService {
+import com.hoysolov.reactformsapi.model.User;
+import com.hoysolov.reactformsapi.payload.RegisterRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+public interface UserService extends UserDetailsService {
+
+    User save(RegisterRequest registerRequest);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
+
+    User findById(Long currentUserId);
 }

@@ -1,5 +1,7 @@
 package com.hoysolov.reactformsapi.controller.user;
 
+import com.hoysolov.reactformsapi.converter.user.UserConverter;
+import com.hoysolov.reactformsapi.model.User;
 import com.hoysolov.reactformsapi.payload.RegisterRequest;
 import com.hoysolov.reactformsapi.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,19 @@ import javax.validation.Valid;
 public class RegisterController {
 
     private final UserService userService;
+    private final UserConverter userConverter;
 
     @Autowired
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, UserConverter userConverter) {
         this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @PostMapping("/register")
     @PreAuthorize("isAnonymous()")
     public ResponseEntity<HttpStatus> registerUser(@Valid @RequestBody final RegisterRequest registerRequest) {
-        userService.save(registerRequest);
+        User user = userConverter.registerRequestToUser(registerRequest);
+        userService.save(user);
         return ResponseEntity.ok().build();
     }
 

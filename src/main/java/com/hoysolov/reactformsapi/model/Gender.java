@@ -1,5 +1,5 @@
 package com.hoysolov.reactformsapi.model;
 
-public enum Sex {
+public enum Gender {
     MALE, FEMALE
 }

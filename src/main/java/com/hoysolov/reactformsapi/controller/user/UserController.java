@@ -29,7 +29,7 @@ public class UserController {
                 user.getId(),
                 user.getEmail(),
                 user.getUsername(),
-                user.getSex().name(),
+                user.getGender().name(),
                 user.getDevSkills()
         );
         return userProfile;

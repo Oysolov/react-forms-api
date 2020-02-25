@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    User save(RegisterRequest registerRequest);
+    User save(User user);
 
     Boolean existsByUsername(String username);
 

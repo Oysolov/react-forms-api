@@ -3,7 +3,7 @@ package com.hoysolov.reactformsapi.service.user;
 import com.hoysolov.reactformsapi.exception.AppException;
 import com.hoysolov.reactformsapi.model.Role;
 import com.hoysolov.reactformsapi.model.RoleName;
-import com.hoysolov.reactformsapi.model.Sex;
+import com.hoysolov.reactformsapi.model.Gender;
 import com.hoysolov.reactformsapi.model.User;
 import com.hoysolov.reactformsapi.payload.RegisterRequest;
 import com.hoysolov.reactformsapi.repository.UserRepository;
@@ -41,23 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(RegisterRequest registerRequest) {
-
-        if (existsByUsername(registerRequest.getUsername())) {
+    public User save(User user) {
+        if (existsByUsername(user.getUsername())) {
             throw new AppException("Username is already taken!");
         }
 
-        if (existsByEmail(registerRequest.getEmail())) {
+        if (existsByEmail(user.getEmail())) {
             throw new AppException("Email is already in use!");
         }
-
-        User user = new User(registerRequest.getUsername(), registerRequest.getEmail(), registerRequest.getPassword(),
-                Sex.valueOf(registerRequest.getSex().toUpperCase()), registerRequest.getDevSkills());
-        user.setPassword(encoder.encode(user.getPassword()));
-
-        Role userRole = roleService.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
-        user.setRole(userRole);
 
         return userRepository.save(user);
     }
